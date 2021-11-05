@@ -1,0 +1,131 @@
+from tkinter import *
+from PIL import ImageTk, Image
+import os
+from functools import partial
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="dados"
+)
+
+def insert():
+
+        mycursor = mydb.cursor()
+
+        userlogin=username.get()
+        passwordlogin=password.get()
+
+        sql = "INSERT INTO login VALUES (%s, %s)"
+        val = (userlogin,passwordlogin)
+        mycursor.execute(sql, val)
+
+        mydb.commit()
+
+        print(mycursor.rowcount, "record inserted.")
+
+def validateLogin(username, password):
+	print("username entered :", username.get())
+	print("password entered :", password.get())
+	insert()
+	return
+
+#window
+tkWindow = Tk()  
+tkWindow.geometry('400x400')  
+tkWindow.title('MyHealth')
+
+img = ImageTk.PhotoImage(Image.open("logo.png"))
+imglabel = Label(tkWindow, image=img).grid(row=10, column=1)        
+
+#username label and text entry box
+usernameLabel = Label(tkWindow, text="User Name").grid(row=0, column=0)
+username = StringVar()
+usernameEntry = Entry(tkWindow, textvariable=username).grid(row=0, column=1)  
+
+#password label and password entry box
+passwordLabel = Label(tkWindow,text="Password").grid(row=1, column=0)  
+password = StringVar()
+passwordEntry = Entry(tkWindow, textvariable=password, show='*').grid(row=1, column=1)  
+
+validateLogin = partial(validateLogin, username, password)
+
+#login button
+loginButton = Button(tkWindow, text="Login", command=validateLogin).grid(row=4, column=0)  
+
+
+
+tkWindow.mainloop()
+~
+
+
+
+
+
+
+
+
+
+
+
+      print (dados)
+      if len(dados)>0:
+        for record in dados:
+            tabela.insert(END,record)
+        tabela.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=tabela.yview)
+      else:
+        Label(app3, text="Nenhum alimento com esse nome",bg='black',fg='white').place(x=10, y=50)
+      mydb.close()
+
+
+
+
+
+      connect = mysql.connector.connect(host="localhost", user="root", passwd="",
+        database="projeto")
+        
+    conn = connect.cursor()
+
+    conn.execute("SELECT * FROM clientes")
+
+    tree=ttk.Treeview(pficha)
+    tree['show'] = 'headings'
+
+    s= ttk.Style(pficha)
+
+    s.theme_use("clam")
+    s.configure(".", font=('arial', 11))
+    s.configure("Treeview.Heading", foreground='white', font=('arial', 11, 'bold'), relief="groove", background="pink")
+
+
+    #Define number of columns
+    tree["columns"]=("ID_Cliente","Nome_Cliente","Morada_Cliente","Data_Nascimento","NIF_Cliente","Telefone_Cliente")
+
+    #Assign the width, minwidth and anchor to the respetive columns
+    tree.column("ID_Cliente", width=150, minwidth=150, anchor=tk.CENTER)
+    tree.column("Nome_Cliente", width=150, minwidth=150, anchor=tk.CENTER)
+    tree.column("Morada_Cliente", width=150, minwidth=150, anchor=tk.CENTER)
+    tree.column("Data_Nascimento", width=150, minwidth=150, anchor=tk.CENTER)
+    tree.column("NIF_Cliente", width=150, minwidth=150, anchor=tk.CENTER)
+    tree.column("Telefone_Cliente", width=150, minwidth=150, anchor=tk.CENTER)
+
+    #Assign the headng names  to the respective columns
+    tree.heading("ID_Cliente", text="ID", anchor=tk.CENTER)
+    tree.heading("Nome_Cliente", text="Nome", anchor=tk.CENTER)
+    tree.heading("Morada_Cliente", text="Morada", anchor=tk.CENTER)
+    tree.heading("Data_Nascimento", text="Data de Nascimento", anchor=tk.CENTER)
+    tree.heading("NIF_Cliente", text="NIF", anchor=tk.CENTER)
+    tree.heading("Telefone_Cliente", text="Telefone", anchor=tk.CENTER)
+
+    i=0
+
+    for ro in conn:
+        tree.insert('', i, text="", values=(ro[0],ro[1],ro[2],ro[3],ro[4],ro[5]))
+        i = i + 1
+
+    tree.pack()
+
+    pficha.mainloop()

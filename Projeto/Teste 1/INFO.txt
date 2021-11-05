@@ -1,0 +1,5 @@
+Neste momento o pograma insere dados na base de dados mas se ja ouver o user n base de dados o programa da erro
+
+Ao enves de adinar dados o pograma teste 2 devera verificar se o utilizador exixte na base de dados se sim ai sim fazer login
+
+Adicionar "criar utilizador"
